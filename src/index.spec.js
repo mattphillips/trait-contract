@@ -10,6 +10,13 @@ describe('Trait', () => {
     delete: ['id']
   });
 
+  const databaseUnderTest = Database.impl({
+    create: message => message,
+    read: () => undefined,
+    update: (id, message) => ({ id, message }),
+    delete: id => id
+  });
+
   describe('validate implementation against contract', () => {
     it('throws an error when implmentation does not conform to contract', () => {
       expect(() => Database.impl({
@@ -20,59 +27,30 @@ describe('Trait', () => {
     });
 
     it('does not throw an error when implmentation conforms to contract', () => {
-      expect(() => Database.impl({
-        create: message => message,
-        read: () => undefined,
-        update: (id, message) => ({ id, message }),
-        delete: id => id
-      })).to.not.throw(Error);
+      expect(() => databaseUnderTest).to.not.throw(Error);
     });
   });
 
   describe('validate implementation function arguments against contract', () => {
     it('throws an error when function is not called with enough arguments', () => {
-      const actual = Database.impl({
-        create: (message) => ({}),
-        read: () => undefined,
-        update: (id, message) => ({}),
-        delete: (id) => ({})
-      });
-      expect(() => actual.create()).to.throw('Expected: 1 argument/s but received: 0');
+      expect(() => databaseUnderTest.create()).to.throw('Expected: 1 argument/s but received: 0');
     });
 
     it('throws an error when function is called with too many arguments', () => {
-      const actual = Database.impl({
-        create: message => message,
-        read: () => undefined,
-        update: (id, message) => ({ id, message }),
-        delete: id => id
-      });
-      expect(() => actual.create('Hello, world!', 2)).to.throw('Expected: 1 argument/s but received: 2');
+      expect(() => databaseUnderTest.create('Hello, world!', 2)).to.throw('Expected: 1 argument/s but received: 2');
     });
 
     it('does not throw an error when function is called with correct number of arguments', () => {
-      const actual = Database.impl({
-        create: message => message,
-        read: () => undefined,
-        update: (id, message) => ({ id, message }),
-        delete: id => id
-      });
-      expect(() => actual.create('Hello, world!')).to.not.throw(Error);
+      expect(() => databaseUnderTest.create('Hello, world!')).to.not.throw(Error);
     });
   });
 
   describe('when implementation conforms to contract', () => {
     it('calls implementation functions with given arguments (identity)', () => {
-      const actual = Database.impl({
-        create: message => message,
-        read: () => undefined,
-        update: (id, message) => ({ id, message }),
-        delete: id => id
-      });
-      expect(actual.create('Hello, world!')).to.equal('Hello, world!');
-      expect(actual.read()).to.equal(undefined);
-      expect(actual.update(1, 'Hello, world!')).to.deep.equal({ id: 1, message: 'Hello, world!' });
-      expect(actual.delete(1)).to.equal(1);
+      expect(databaseUnderTest.create('Hello, world!')).to.equal('Hello, world!');
+      expect(databaseUnderTest.read()).to.equal(undefined);
+      expect(databaseUnderTest.update(1, 'Hello, world!')).to.deep.equal({ id: 1, message: 'Hello, world!' });
+      expect(databaseUnderTest.delete(1)).to.equal(1);
     });
   });
 });

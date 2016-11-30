@@ -1,7 +1,7 @@
 {
   "name": "trait-contract",
   "version": "0.0.1",
-  "description": "Build trait a type and supply an implementation which is validated against trait contract",
+  "description": "Build Trait for a Type and supply an implementation which is validated against the Trait's contract",
   "main": "dist/index.js",
   "files": [
     "dist/index.js"

@@ -60,4 +60,19 @@ describe('Trait', () => {
       expect(() => actual.create('Hello, world!')).to.not.throw(Error);
     });
   });
+
+  describe('when implementation conforms to contract', () => {
+    it('calls implementation functions with given arguments (identity)', () => {
+      const actual = Database.impl({
+        create: message => message,
+        read: () => undefined,
+        update: (id, message) => ({ id, message }),
+        delete: id => id
+      });
+      expect(actual.create('Hello, world!')).to.equal('Hello, world!');
+      expect(actual.read()).to.equal(undefined);
+      expect(actual.update(1, 'Hello, world!')).to.deep.equal({ id: 1, message: 'Hello, world!' });
+      expect(actual.delete(1)).to.equal(1);
+    });
+  });
 });

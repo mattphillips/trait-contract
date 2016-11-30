@@ -14,6 +14,7 @@ export default contract => {
             if (contract[key].length != arguments.length) {
               throw new Error(`Expected: ${contract[key].length} argument/s but received: ${arguments.length}`);
             }
+            return implementation[key](...Object.values(arguments));
           }
         };
       }, {});

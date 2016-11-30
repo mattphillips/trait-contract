@@ -1,0 +1,51 @@
+{
+  "name": "trait-contract",
+  "version": "0.0.1",
+  "description": "Build trait a type and supply an implementation which is validated against trait contract",
+  "main": "dist/index.js",
+  "files": [
+    "dist/index.js"
+  ],
+  "scripts": {
+    "build": "babel src -d dist --ignore *.spec.js",
+    "prepublish": "npm run build",
+    "prepublish": "",
+    "test": "mocha \"src/**/*spec.js\" --require babel-polyfill --recursive --compilers js:babel-register",
+    "test:coverage": "babel-node ./node_modules/.bin/babel-istanbul cover _mocha -- \"src/**/*spec.js\" --require babel-polyfill --recursive --compilers js:babel-register",
+    "test:watch": "npm test -- -w"
+  },
+  "author": "Matt Phillips",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-core": "^6.18.2",
+    "babel-istanbul": "^0.11.0",
+    "babel-polyfill": "^6.16.0",
+    "babel-preset-es2015": "^6.18.0",
+    "babel-preset-stage-1": "^6.16.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-1"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattphillips/trait-contract.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mattphillips/trait-contract/issues"
+  },
+  "homepage": "https://github.com/mattphillips/trait-contract#readme",
+  "dependencies": {},
+  "keywords": [
+    "trait",
+    "contract",
+    "interface",
+    "type",
+    "validation"
+  ]
+}

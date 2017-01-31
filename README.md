@@ -1,6 +1,7 @@
 # Trait Contract
 
 [![Build Status](https://travis-ci.org/mattphillips/trait-contract.svg?branch=master)](https://travis-ci.org/mattphillips/trait-contract)
+[![Coverage Status](https://coveralls.io/repos/github/mattphillips/trait-contract/badge.svg?branch=master)](https://coveralls.io/github/mattphillips/trait-contract?branch=master)
 
 Utility to build a Trait (Interface) for a given Type. The Trait's contract is used to validate against the implementation, throwing an `Error` if the implementation is missing a property of the Trait.
 

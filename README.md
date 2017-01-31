@@ -1,5 +1,7 @@
 # Trait Contract
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/mattphillips/trait-contract.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/mattphillips/trait-contract.svg?branch=master)](https://travis-ci.org/mattphillips/trait-contract)
 [![Coverage Status](https://coveralls.io/repos/github/mattphillips/trait-contract/badge.svg?branch=master)](https://coveralls.io/github/mattphillips/trait-contract?branch=master)
 

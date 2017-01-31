@@ -1,5 +1,7 @@
 # Trait Contract
 
+[![Build Status](https://travis-ci.org/mattphillips/trait-contract.svg?branch=master)](https://travis-ci.org/mattphillips/trait-contract)
+
 Utility to build a Trait (Interface) for a given Type. The Trait's contract is used to validate against the implementation, throwing an `Error` if the implementation is missing a property of the Trait.
 
 If an implementation conforms to it's Trait then the given functions are validated for the number of arguments they are invoked with, throwing an `Error` if called with too few or too many arguments.

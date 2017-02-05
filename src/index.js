@@ -10,11 +10,11 @@ export default contract => {
       return Object.keys(implementation).reduce((acc, key) => {
         return {
           ...acc,
-          [key]: function () {
-            if (contract[key].length != arguments.length) {
-              throw new Error(`Expected: ${contract[key].length} argument/s but received: ${arguments.length}`);
+          [key]: (...args) => {
+            if (contract[key].length != args.length) {
+              throw new Error(`Expected: ${contract[key].length} argument/s but received: ${args.length}`);
             }
-            return implementation[key](...Object.values(arguments));
+            return implementation[key](...args);
           }
         };
       }, {});

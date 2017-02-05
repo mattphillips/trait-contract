@@ -53,4 +53,28 @@ describe('Trait', () => {
       expect(databaseUnderTest.delete(1)).to.equal(1);
     });
   });
+
+  describe('when implementation has extra properties', () => {
+    const implementationWithExtra = Database.impl({
+      create: message => message,
+      read: () => undefined,
+      update: (id, message) => ({ id, message }),
+      delete: id => id,
+      identity: id => id,
+      nonFn: 'hello'
+    });
+
+    it('non function properties are not removed or turned into functions', () => {
+      expect(implementationWithExtra.nonFn).to.equal('hello');
+    });
+
+    it('extra functions are not removed', () => {
+      expect(implementationWithExtra.identity).to.be.a.function;
+    });
+
+    it('extra functions do not throw errors when invoked with any number of arguements', () => {
+      expect(implementationWithExtra.identity(1)).to.equal(1);
+      expect(implementationWithExtra.identity(1, 2)).to.equal(1);
+    });
+  });
 });

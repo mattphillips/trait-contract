@@ -1,5 +1,3 @@
-import { expect } from 'chai';
-
 import Trait from './';
 
 describe('Trait', () => {
@@ -18,63 +16,64 @@ describe('Trait', () => {
   });
 
   describe('validate implementation against contract', () => {
-    it('throws an error when implmentation does not conform to contract', () => {
+    test('throws an error when implmentation does not conform to contract', () => {
       expect(() => Database.impl({
         create: message => message,
         read: () => undefined,
         delete: id => id
-      })).to.throw('Expected function: update has not been implemented.');
+      })).toThrow('Expected function: update has not been implemented.');
     });
 
-    it('does not throw an error when implmentation conforms to contract', () => {
-      expect(() => databaseUnderTest).to.not.throw(Error);
+    test('does not throw an error when implmentation conforms to contract', () => {
+      expect(() => databaseUnderTest).not.toThrow(Error);
     });
   });
 
   describe('validate implementation function arguments against contract', () => {
-    it('throws an error when function is not called with enough arguments', () => {
-      expect(() => databaseUnderTest.create()).to.throw('Expected: 1 argument/s but received: 0');
+    test('throws an error when function is not called with enough arguments', () => {
+      expect(() => databaseUnderTest.create()).toThrow('Expected: 1 argument/s but received: 0');
     });
 
-    it('throws an error when function is called with too many arguments', () => {
-      expect(() => databaseUnderTest.create('Hello, world!', 2)).to.throw('Expected: 1 argument/s but received: 2');
+    test('throws an error when function is called with too many arguments', () => {
+      expect(() => databaseUnderTest.create('Hello, world!', 2)).toThrow('Expected: 1 argument/s but received: 2');
     });
 
-    it('does not throw an error when function is called with correct number of arguments', () => {
-      expect(() => databaseUnderTest.create('Hello, world!')).to.not.throw(Error);
+    test('does not throw an error when function is called with correct number of arguments', () => {
+      expect(() => databaseUnderTest.create('Hello, world!')).not.toThrow(Error);
     });
   });
 
   describe('when implementation conforms to contract', () => {
-    it('calls implementation functions with given arguments (identity)', () => {
-      expect(databaseUnderTest.create('Hello, world!')).to.equal('Hello, world!');
-      expect(databaseUnderTest.read()).to.equal(undefined);
-      expect(databaseUnderTest.update(1, 'Hello, world!')).to.deep.equal({ id: 1, message: 'Hello, world!' });
-      expect(databaseUnderTest.delete(1)).to.equal(1);
+    test('calls implementation functions with given arguments (identity)', () => {
+      expect(databaseUnderTest.create('Hello, world!')).toEqual('Hello, world!');
+      expect(databaseUnderTest.read()).toEqual(undefined);
+      expect(databaseUnderTest.update(1, 'Hello, world!')).toEqual({ id: 1, message: 'Hello, world!' });
+      expect(databaseUnderTest.delete(1)).toEqual(1);
     });
   });
 
   describe('when implementation has extra properties', () => {
+    const identity = id => id;
     const implementationWithExtra = Database.impl({
       create: message => message,
       read: () => undefined,
       update: (id, message) => ({ id, message }),
       delete: id => id,
-      identity: id => id,
+      identity,
       nonFn: 'hello'
     });
 
-    it('non function properties are not removed or turned into functions', () => {
-      expect(implementationWithExtra.nonFn).to.equal('hello');
+    test('non function properties are not removed or turned into functions', () => {
+      expect(implementationWithExtra.nonFn).toEqual('hello');
     });
 
-    it('extra functions are not removed', () => {
-      expect(implementationWithExtra.identity).to.be.a.function;
+    test('extra functions are not removed', () => {
+      expect(typeof implementationWithExtra.identity === 'function').toBe(true);
     });
 
-    it('extra functions do not throw errors when invoked with any number of arguements', () => {
-      expect(implementationWithExtra.identity(1)).to.equal(1);
-      expect(implementationWithExtra.identity(1, 2)).to.equal(1);
+    test('extra functions do not throw errors when invoked with any number of arguements', () => {
+      expect(implementationWithExtra.identity(1)).toEqual(1);
+      expect(implementationWithExtra.identity(1, 2)).toEqual(1);
     });
   });
 });
